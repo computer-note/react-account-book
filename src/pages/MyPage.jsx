@@ -6,6 +6,7 @@ function MyPage() {
   const { isAuthenticated, getAccessToken } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
 
+  //Todo: Custom Hook으로 만들기
   useEffect(() => {
     async function getUserInfo() {
       //로그인된 경우에만 정보를 가져온다

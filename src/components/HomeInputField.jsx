@@ -1,13 +1,18 @@
-import { useContext, useRef, useState } from 'react';
 import InputField from './InputField';
+
+import { useContext, useRef, useState, useEffect } from 'react';
 import { styled } from 'styled-components';
+
+//현재 선택된 월을 가져오는데 필요
 import { AppContext } from '../context/AppContextProvider';
-import { useDispatch } from 'react-redux';
-import { addEntry } from '../redux/slices/entryListSlice';
-import { v4 as uuidv4 } from 'uuid';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createAccount } from '../axios/accountApi';
+
+//유저 정보를 가져오는데 필요
 import { requestUserInfo } from '../axios/authApi';
+import { AuthContext } from '../context/AuthContextProvider';
+
+//계정이 아니라 가계부항목을 의미 => Todo: 혼동안되는 이름으로 바꾸기
+import { createAccount } from '../axios/accountApi';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const StSection = styled.section`
   display: flex;
@@ -25,11 +30,13 @@ const emptyEntryValues = () => {
 };
 
 function HomeInputField() {
-  const { setSelectedMonth } = useContext(AppContext);
   const [inputValues, setInputValues] = useState(emptyEntryValues);
+  const { setSelectedMonth } = useContext(AppContext);
   const inputFieldRef = useRef();
 
-  const dispatch = useDispatch();
+  //유저 정보를 가져오기 위해
+  const { getAccessToken } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState(null);
 
   //Todo. Custom Hook으로 만들기
   const queryClient = useQueryClient();
@@ -41,14 +48,14 @@ function HomeInputField() {
   });
 
   function handleCreateButtonClick() {
-    dispatch(addEntry({ ...inputValues, id: uuidv4() }));
-    setSelectedMonth(Number(inputValues.date.slice(5, 7)));
-
-    resetFieldAndState();
-
-    createAccountMutation.mutate({ ...inputValues }); // => returns undefined
+    createAccountMutation.mutate({
+      ...inputValues,
+      nickname: userInfo.nickname,
+    }); // => mutate returns undefined
 
     alert('생성 완료');
+    resetFieldAndState();
+    setSelectedMonth(Number(inputValues.date.slice(5, 7)));
   }
 
   function resetFieldAndState() {
@@ -56,6 +63,21 @@ function HomeInputField() {
 
     setInputValues(emptyEntryValues());
   }
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const accessToken = getAccessToken();
+      try {
+        const response = await requestUserInfo(accessToken);
+        const { id, nickname } = response.data;
+        setUserInfo({ id, nickname });
+      } catch (err) {
+        console.dir(err);
+      }
+    }
+
+    getUserInfo();
+  }, []);
 
   return (
     <StSection>
