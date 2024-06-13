@@ -1,11 +1,17 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { requestLogin } from '../axios/authApi';
+import { AuthContext } from '../context/AuthContextProvider';
 
+/* Todo.
+  이미 로그인된 상태에서 로그인 페이지에 진입한 경우 처리
+*/
 function LoginPage() {
   const [idInputVal, setIdInputVal] = useState('');
   const [pwInputVal, setPwInputVal] = useState('');
 
   const outputElemRef = useRef(null);
+
+  const { setAppStateLoggedIn } = useContext(AuthContext);
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -16,6 +22,10 @@ function LoginPage() {
       /* response format {
         data: accessToken, avatar, nickname, success, userId(=>id)
       }*/
+
+      //Todo. catch에 걸리지 않는데 성공이 아닌 경우 있는지 조사
+
+      setAppStateLoggedIn(response.data.accessToken);
 
       outputMessage = '로그인 성공';
 
