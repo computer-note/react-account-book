@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContextProvider';
 import styled from 'styled-components';
 
@@ -7,6 +7,7 @@ function Header() {
   const { isAuthenticated, setAppStateLogOut } =
     useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   async function handleLogoutButtonClick() {
     //Todo. logout API 호출 후 응답 대기
@@ -21,6 +22,9 @@ function Header() {
       <div>
         <Link to='/'>메인페이지로</Link>
       </div>
+      <div>
+        현재페이지:{location.pathname.slice(0, 12).toUpperCase()}
+      </div>
       <StDiv>
         <span>
           현재인증상태:{isAuthenticated.toString().toUpperCase()}
@@ -28,7 +32,7 @@ function Header() {
         {isAuthenticated ? (
           /* 인증상태 true이면 표시할 UI */
           <>
-            <Link to='/mypage'>나의페이지</Link>
+            <Link to='/mypage'>나의페이지로</Link>
             <button onClick={handleLogoutButtonClick}>
               로그아웃
             </button>
