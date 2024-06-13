@@ -90,14 +90,6 @@
       "title": "vvvv",
       "expense": 555,
       "description": "fff"
-    },
-    {
-      "id": "73e2",
-      "date": "2024-06-13",
-      "title": "aaaa",
-      "expense": 22222,
-      "description": "zzzz",
-      "nickname": "yyyyyyy"
     }
   ]
 }

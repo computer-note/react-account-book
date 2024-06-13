@@ -1,65 +1,73 @@
+import InputField from './InputField';
+import styled from 'styled-components';
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import InputField from './InputField';
-
-import { useDispatch } from 'react-redux';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-   modifyEntry,
-   removeEntry,
-} from '../redux/slices/entryListSlice';
-
-import styled from 'styled-components';
-
-const StColumnOrientedInputField = styled(InputField)`
-   display: flex;
-   flex-direction: column;
-`;
+  deleteAccountById,
+  updateAccount,
+} from '../axios/accountApi';
 
 function DetailInputField({ currentEntry }) {
-   const [inputValues, setInputValues] = useState(currentEntry);
-   const dispatch = useDispatch();
-   const navigate = useNavigate();
+  const [inputValues, setInputValues] = useState(currentEntry);
+  const navigate = useNavigate();
 
-   function handleModifyButtonClick() {
-      const newEntryData = {
-         ...inputValues,
-         id: currentEntry.id,
-      };
+  const queryClient = useQueryClient();
 
-      for (const key in newEntryData) {
-         if (newEntryData[key] === '') {
-            const defaultValue = `기본 ${key} ${currentEntry.id}`;
-            newEntryData[key] = defaultValue;
-         }
+  const updateAccountMutation = useMutation({
+    mutationFn: updatedAccount => updateAccount(updatedAccount),
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+
+  const deleteAccountByIdMutation = useMutation({
+    mutationFn: accountId => deleteAccountById(accountId),
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+
+  function handleModifyButtonClick() {
+    const newEntryData = {
+      ...inputValues,
+      id: currentEntry.id,
+    };
+
+    //Todo. 디폴트값 채워주는 로직을 다른 곳으로 뺄 수 있으면 빼기
+    for (const key in newEntryData) {
+      if (newEntryData[key] === '') {
+        const defaultValue = `기본 ${key} ${currentEntry.id}`;
+        newEntryData[key] = defaultValue;
       }
+    }
 
-      //Todo: 이전값에서 바뀐 내용이 없으면 수정을 요청하지 않는다.
-      dispatch(modifyEntry({ ...newEntryData }));
+    updateAccountMutation.mutate(newEntryData);
 
-      setInputValues({ ...newEntryData });
+    alert('수정 완료');
+    setInputValues({ ...newEntryData });
+  }
 
-      alert('수정 완료');
-   }
+  function handleDeleteButtonClick() {
+    deleteAccountByIdMutation.mutate(currentEntry.id);
 
-   function handleDeleteButtonClick() {
-      //Todo: 바로 삭제하지 않고 확인 모달을 추가한다.
+    alert('삭제 완료');
+    navigate('/');
+  }
 
-      dispatch(removeEntry(currentEntry.id));
-
-      alert('삭제 완료');
-      navigate('/');
-   }
-
-   return (
-      <>
-         <StColumnOrientedInputField
-            defaultValues={inputValues}
-            setInputValues={setInputValues}
-         />
-         <button onClick={handleModifyButtonClick}>수정하기</button>
-         <button onClick={handleDeleteButtonClick}>삭제하기</button>
-      </>
-   );
+  return (
+    <>
+      <StColumnOrientedInputField
+        defaultValues={inputValues}
+        setInputValues={setInputValues}
+      />
+      <button onClick={handleModifyButtonClick}>수정하기</button>
+      <button onClick={handleDeleteButtonClick}>삭제하기</button>
+    </>
+  );
 }
+
+const StColumnOrientedInputField = styled(InputField)`
+  display: flex;
+  flex-direction: column;
+`;
+
 export default DetailInputField;
