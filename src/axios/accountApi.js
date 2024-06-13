@@ -15,7 +15,8 @@ async function readAllAccountList() {
 }
 
 async function readAccountById(accountId) {
-  return await accountApi.get(`/accountList/${accountId}`);
+  const response = await accountApi.get(`/accountList/${accountId}`);
+  return response.data;
 }
 
 async function updateAccount(updatedAccount) {
