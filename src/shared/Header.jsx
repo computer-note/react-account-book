@@ -18,20 +18,29 @@ function Header() {
 
   return (
     <StNav>
-      <p>현재인증상태:{isAuthenticated.toString()}</p>
-      {isAuthenticated ? (
-        /* 인증상태 true이면 표시할 UI */
-        <>
-          <Link to='/mypage'>나의페이지</Link>
-          <button onClick={handleLogoutButtonClick}>로그아웃</button>
-        </>
-      ) : (
-        /* 인증상태 false이면 표시할 UI */
-        <>
-          <Link to='/login'>로그인</Link>
-          <Link to='/signup'>회원가입</Link>
-        </>
-      )}
+      <div>
+        <Link to='/'>메인페이지로</Link>
+      </div>
+      <StDiv>
+        <span>
+          현재인증상태:{isAuthenticated.toString().toUpperCase()}
+        </span>
+        {isAuthenticated ? (
+          /* 인증상태 true이면 표시할 UI */
+          <>
+            <Link to='/mypage'>나의페이지</Link>
+            <button onClick={handleLogoutButtonClick}>
+              로그아웃
+            </button>
+          </>
+        ) : (
+          /* 인증상태 false이면 표시할 UI */
+          <>
+            <Link to='/login'>로그인</Link>
+            <Link to='/signup'>회원가입</Link>
+          </>
+        )}
+      </StDiv>
     </StNav>
   );
 
@@ -52,13 +61,18 @@ function Header() {
 //질문: StNav 정의 이전에 사용해도 되는 이유
 const StNav = styled.nav`
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   align-items: center;
-  margin-right: 2rem;
-  gap: 2rem;
   height: 6rem;
   font-size: 1.3rem;
+  padding-inline: 1rem;
   background-color: aliceblue;
+`;
+
+const StDiv = styled.div`
+  & > * {
+    margin-left: 0.7rem;
+  }
 `;
 
 export default Header;
