@@ -10,7 +10,8 @@ async function createAccount(account) {
 }
 
 async function readAllAccountList() {
-  return await accountApi.get('/accountList');
+  const response = await accountApi.get('/accountList');
+  return response.data;
 }
 
 async function readAccountById(accountId) {

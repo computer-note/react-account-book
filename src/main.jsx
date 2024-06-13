@@ -12,14 +12,24 @@ import AppContextProvider from './context/AppContextProvider';
 //현재 앱의 인증상태를 관리
 import AuthContextProvider from './context/AuthContextProvider';
 
+//Tanstack Query
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AuthContextProvider>
-        <AppContextProvider>
-          <App />
-        </AppContextProvider>
-      </AuthContextProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <AuthContextProvider>
+          <AppContextProvider>
+            <App />
+          </AppContextProvider>
+        </AuthContextProvider>
+      </Provider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

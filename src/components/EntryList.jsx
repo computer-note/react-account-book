@@ -3,6 +3,8 @@ import Entry from './Entry';
 import { styled } from 'styled-components';
 import { AppContext } from '../context/AppContextProvider';
 import { useSelector } from 'react-redux';
+import { useQuery } from '@tanstack/react-query';
+import { readAllAccountList } from '../axios/accountApi';
 
 const StSection = styled.section`
   border: 1px black solid;
@@ -19,8 +21,22 @@ const StP = styled.p`
 `;
 
 function EntryList() {
-  const entryList = useSelector(state => state.entryListSlice);
+  //const entryList = useSelector(state => state.entryListSlice);
   const { selectedMonth } = useContext(AppContext);
+
+  const accountListQuery = useQuery({
+    queryFn: readAllAccountList,
+    queryKey: ['accountList'],
+  });
+  console.log('accountListQuery ↓');
+  console.dir(accountListQuery);
+
+  const { isPending, isError, data: entryList } = accountListQuery;
+
+  if (isPending || isError) {
+    return <p>로딩 중 혹은 에러 발생</p>;
+  }
+
   return (
     <StSection>
       <StP> {selectedMonth} 월의 가계부</StP>
