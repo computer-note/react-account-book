@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { requestSignup } from '../axios/userApi';
+import { requestSignup } from '../axios/authApi';
 
 function SignupPage() {
   const [idInputVal, setIdInputVal] = useState('');
