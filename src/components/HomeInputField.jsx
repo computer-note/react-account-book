@@ -48,9 +48,12 @@ function HomeInputField() {
   });
 
   function handleCreateButtonClick() {
+    //가계부항목의 id는 이미 id라는 속성명으로 저장하고 있으므로
+    //유저의 id는 userId라는 속성명으로 저장해야 한다.
     createAccountMutation.mutate({
       ...inputValues,
       nickname: userInfo.nickname,
+      userId: userInfo.id, //다른 유저가 작성한 항목은 수정하지 못하도록 하기 위해 id도 저장한다
     }); // => mutate returns undefined
 
     alert('생성 완료');

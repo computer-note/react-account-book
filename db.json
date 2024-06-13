@@ -43,13 +43,6 @@
       "id": "a4"
     },
     {
-      "date": "2024-02-02",
-      "title": "도서",
-      "expense": 75000,
-      "description": "자율주행차량 운전주행모드 자동 전환용 인식률 90% 이상의 다중 센서 기반 운전자 상태 인식 및 상황 인식 원천 기술 개발 자율주행차량 운전주행모드 자동 전환용 인식률 90% 이상의 다중 센서 기반 운전자 상태 인식 및 상황 인식 원천 기술 개발",
-      "id": "a3"
-    },
-    {
       "date": "2024-10-05",
       "title": "봉사",
       "expense": 155000,
@@ -64,32 +57,21 @@
       "id": "a1"
     },
     {
-      "id": "e4d8",
+      "id": "aaaaaa",
       "date": "2024-06-13",
-      "title": "zzzzz",
-      "expense": 1111,
-      "description": "zzzz"
+      "title": "햄버거",
+      "expense": 11111,
+      "description": "햄버거",
+      "nickname": "yyyyyyy"
     },
     {
-      "id": "1538",
+      "id": "1852",
       "date": "2024-06-13",
-      "title": "wwww",
-      "expense": 2222,
-      "description": "qqqq"
-    },
-    {
-      "id": "4a41",
-      "date": "2024-06-13",
-      "title": "aasd",
-      "expense": 1212,
-      "description": "1212"
-    },
-    {
-      "id": "ffc4",
-      "date": "2024-06-13",
-      "title": "vvvv",
-      "expense": 555,
-      "description": "fff"
+      "title": "ㅋㅊㅌ",
+      "expense": 21,
+      "description": "ㅌㅋㅊㅋㅌㅊ",
+      "nickname": "yyyyyyy",
+      "userId": "aaaaaa"
     }
   ]
 }
