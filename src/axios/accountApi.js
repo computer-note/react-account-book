@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const accountApi = axios.create({
   //배포시 baseURL 변경해야함
-  baseURL: 'http://localhost:4000',
+  baseURL: 'https://glow-water-waxflower.glitch.me',
 });
 
 async function createAccount(account) {
