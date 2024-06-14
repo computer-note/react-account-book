@@ -40,6 +40,7 @@ function DetailInputField({ currentEntry }) {
       }
     }
 
+    //Question mutate 완료까지 wait 되는 것인지?
     updateAccountMutation.mutate(newEntryData);
 
     alert('수정 완료');
@@ -47,6 +48,7 @@ function DetailInputField({ currentEntry }) {
   }
 
   function handleDeleteButtonClick() {
+    //Question 삭제 완료까지 wait 되는 것인지?
     deleteAccountByIdMutation.mutate(currentEntry.id);
 
     alert('삭제 완료');
