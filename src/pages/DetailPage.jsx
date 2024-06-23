@@ -1,19 +1,17 @@
 import DetailInputField from '../components/DetailInputField';
 import styled from 'styled-components';
 
-import { useQuery } from '@tanstack/react-query';
-import { readAccountById } from '../axios/accountApi';
-
 import { useNavigate, useParams } from 'react-router-dom';
+import useAccount from './../hooks/useAccount';
 
 function DetailPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const accountQuery = useQuery({
-    queryFn: () => readAccountById(params.id),
-    queryKey: ['accountList', params.id],
-  });
+  const accountQuery = useAccount(
+    api => api.readAccountByIdQuery,
+    params.id
+  );
 
   const { isPending, isError, data: currentEntry } = accountQuery;
 

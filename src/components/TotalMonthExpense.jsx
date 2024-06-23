@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 
-import { useQuery } from '@tanstack/react-query';
-import { readAllAccountList } from '../axios/accountApi';
+import useAccount from './../hooks/useAccount';
 
 //Todo: 유틸리티 모듈로 빼기
 function extractMonthFromDate(date) {
@@ -16,10 +15,9 @@ function TotalMonthExpense() {
   const { selectedMonth } = useContext(AppContext);
 
   //Todo: 가져올 때 월별로 filter해서 가져오는 API있는지 알아보기
-  const accountListQuery = useQuery({
-    queryFn: readAllAccountList,
-    queryKey: ['accountList'],
-  });
+  const accountListQuery = useAccount(
+    api => api.readAllAccountListQuery
+  );
 
   //Todo: DB에서는 가계부항목을 Account라고 부르는데 클라이언트에서는 Entry라고 부르는 문제 해결하기
   const { isPending, isError, data: entryList } = accountListQuery;

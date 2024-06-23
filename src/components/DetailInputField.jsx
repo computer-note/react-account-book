@@ -4,27 +4,19 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  deleteAccountById,
-  updateAccount,
-} from '../axios/accountApi';
+import useAccount from '../hooks/useAccount';
 
 function DetailInputField({ currentEntry }) {
   const [inputValues, setInputValues] = useState(currentEntry);
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
+  const updateAccountMutation = useAccount(
+    api => api.updateAccountMutation
+  );
 
-  const updateAccountMutation = useMutation({
-    mutationFn: updatedAccount => updateAccount(updatedAccount),
-    onSuccess: () => queryClient.invalidateQueries(),
-  });
-
-  const deleteAccountByIdMutation = useMutation({
-    mutationFn: accountId => deleteAccountById(accountId),
-    onSuccess: () => queryClient.invalidateQueries(),
-  });
+  const deleteAccountByIdMutation = useAccount(
+    api => api.deleteAccountByIdMutation
+  );
 
   function handleModifyButtonClick() {
     const newEntryData = {

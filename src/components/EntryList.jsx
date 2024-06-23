@@ -5,18 +5,17 @@ import { useContext, useState, useEffect } from 'react';
 
 import { AppContext } from '../context/AppContextProvider';
 
-import { useQuery } from '@tanstack/react-query';
-import { readAllAccountList } from '../axios/accountApi';
 import { AuthContext } from '../context/AuthContextProvider';
 import { requestUserInfo } from '../axios/authApi';
+
+import useAccount from '../hooks/useAccount';
 
 function EntryList() {
   const { selectedMonth } = useContext(AppContext);
 
-  const accountListQuery = useQuery({
-    queryFn: readAllAccountList,
-    queryKey: ['accountList'],
-  });
+  const accountListQuery = useAccount(
+    api => api.readAllAccountListQuery
+  );
 
   const { isPending, isError, data: entryList } = accountListQuery;
 

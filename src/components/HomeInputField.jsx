@@ -11,8 +11,7 @@ import { requestUserInfo } from '../axios/authApi';
 import { AuthContext } from '../context/AuthContextProvider';
 
 //계정이 아니라 가계부항목을 의미 => Todo: 혼동안되는 이름으로 바꾸기
-import { createAccount } from '../axios/accountApi';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useAccount from '../hooks/useAccount';
 
 const StSection = styled.section`
   display: flex;
@@ -38,14 +37,9 @@ function HomeInputField() {
   const { getAccessToken } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
 
-  //Todo. Custom Hook으로 만들기
-  const queryClient = useQueryClient();
-  const createAccountMutation = useMutation({
-    mutationFn: createAccount,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['accountList']);
-    },
-  });
+  const createAccountMutation = useAccount(
+    api => api.createAccountMutation
+  );
 
   function handleCreateButtonClick() {
     //가계부항목의 id는 이미 id라는 속성명으로 저장하고 있으므로
