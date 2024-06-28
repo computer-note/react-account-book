@@ -49,7 +49,7 @@ function PublicRoute({ element: PageComponent, ...rest }) {
 function PrivateRoute({ element: PageComponent, ...rest }) {
   const { isAuthenticated } = useContext(AuthContext);
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     alert('로그인이 되어있지 않습니다. 로그인페이지로 이동합니다.');
   }
 
